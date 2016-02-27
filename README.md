@@ -3,7 +3,7 @@ extract_wp_names.pl
 
 What's this?
 ------------
-This is a Perl script which extracts personal names (both their Kanji and Kana) in Japanese Wikipedia and output them in a form in which the family name and 
+This is a Perl script which extracts personal names (both their Kanji and Kana) in Japanese Wikipedia and output them in a form in which the family and given names are separated by a space.
 
 How to use
 ----------
@@ -16,7 +16,7 @@ How to use
 
 説明
 ----
-日本語Wikipediaの人名（漢字・読み）を抽出し、姓と名が分かれた形で出力するPerlスクリプトです。
+日本語Wikipediaの人名（漢字・読み）を抽出し、姓と名がスペースで区切られた形で出力するPerlスクリプトです。
 
 使い方
 ------
