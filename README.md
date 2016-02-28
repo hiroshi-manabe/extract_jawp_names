@@ -1,4 +1,4 @@
-extract_wp_names.pl
+Japanese Wikipedia personal name extractor
 ===================
 
 What's this?
