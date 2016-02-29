@@ -19,7 +19,7 @@ while (<STDIN>) {
 
         $page =~ s{\{\{[^\|\}]+?フォント\|(.+?)\}\}}{$1}g;
         $page =~ s{&amp;#(\d+);}{chr($1)}eg;
-        $page =~ s{&amp;#x([A-Fa-f0-9]);}{chr(hex($1))}eg;
+        $page =~ s{&amp;#x([A-Fa-f0-9]+);}{chr(hex($1))}eg;
 
         next if $page !~ m{\{\{(?:DEFAULTSORT|デフォルトソート):(.+?)\}\}}i;
 
