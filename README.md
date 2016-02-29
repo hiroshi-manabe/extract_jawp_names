@@ -9,11 +9,15 @@ How to use
 ----------
 1. Get the Japanese Wikipedia dump file.
 
-    curl -LO https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml.bz2
+```
+curl -LO https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml.bz2
+```
 
 2. Run this script to extract personal names.
 
-    bzcat ./jawiki-latest-pages-articles.xml.bz2 | perl extract_jawp_names.pl
+```
+bzcat ./jawiki-latest-pages-articles.xml.bz2 | perl extract_jawp_names.pl
+```
 
 説明
 ----
@@ -23,12 +27,15 @@ How to use
 ------
 1. 日本語Wikipediaのファイルを取ってきます。
 
-    curl -LO https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml.bz2
+```
+curl -LO https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml.bz2
+```
 
 2.  スクリプトを動かして人名を抽出します。
 
-    bzcat ./jawiki-latest-pages-articles.xml.bz2 | perl extract_jawp_names.pl
-
+```
+bzcat ./jawiki-latest-pages-articles.xml.bz2 | perl extract_jawp_names.pl
+```
 
 Expected Output/期待される出力
 ------------------------------
