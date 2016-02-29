@@ -19,9 +19,13 @@ How to use
 使い方
 ------
 1. 日本語Wikipediaのファイルを取ってきます。
+
    curl -LO https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml.bz2
+
 2. スクリプトを動かして人名を抽出します。
+
    bzcat ./jawiki-latest-pages-articles.xml.bz2 | perl extract_jawp_names.pl
+
 
 Expected Output/期待される出力
 ------------------------------
