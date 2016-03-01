@@ -7,6 +7,7 @@ This is a Perl script which extracts personal names (both their Kanji and Kana) 
 
 How to use
 ----------
+
 1. Get the Japanese Wikipedia dump file.
 
 ```
@@ -17,6 +18,13 @@ curl -LO https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.
 
 ```
 bzcat ./jawiki-latest-pages-articles.xml.bz2 | perl extract_jawp_names.pl
+```
+
+Or do it all at once.
+
+```
+curl -s https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml.bz2 \
+  | bzcat | perl extract_jawp_names.pl
 ```
 
 説明
@@ -36,6 +44,14 @@ curl -LO https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.
 ```
 bzcat ./jawiki-latest-pages-articles.xml.bz2 | perl extract_jawp_names.pl
 ```
+
+あるいはまとめて
+
+```
+curl -s https://dumps.wikimedia.org/jawiki/latest/jawiki-latest-pages-articles.xml.bz2 \
+  | bzcat | perl extract_jawp_names.pl
+```
+
 
 Expected Output/期待される出力
 ------------------------------
