@@ -66,3 +66,7 @@ Expected Output/期待される出力
     車田 正美	くるまだ まさみ
     高橋 しん	たかはし しん
     ...
+
+License
+-------
+This software is released under the MIT License, see LICENSE.txt.
