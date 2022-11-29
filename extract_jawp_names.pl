@@ -106,10 +106,10 @@ while (<STDIN>) {
         }
         my $defaultsort_regexp = join('[\Wー]*', @ambiguous_chars).'ー?';
 
-        $page =~ s{('''[^']+ ([\p{Hiragana}\p{Katakana}ー]+)'''[\W\p{Hiragana}\p{Katakana}ー]+ )-}{$1$2};
-        $page =~ s{('''([\p{Hiragana}\p{Katakana}ー]+) [^']+'''\W+)-}{$1$2};
+        $page =~ s{('''[^']+ ([\p{sc=Hiragana}\p{sc=Katakana}ー]+)'''[\W\p{sc=Hiragana}\p{sc=Katakana}ー]+ )-}{$1$2};
+        $page =~ s{('''([\p{sc=Hiragana}\p{sc=Katakana}ー]+) [^']+'''\W+)-}{$1$2};
         
-        while ($page =~ m{($name_regexp).*?[^\p{Hiragana}\p{Katakana}]($defaultsort_regexp)[^\p{Hiragana}\p{Katakana}ー]}g) {
+        while ($page =~ m{($name_regexp).*?[^\p{sc=Hiragana}\p{sc=Katakana}]($defaultsort_regexp)[^\p{sc=Hiragana}\p{sc=Katakana}ー]}g) {
             my $matched_name = $1;
             my $matched_kana = $2;
             my @split_name = split/\W+/, $matched_name;
