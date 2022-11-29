@@ -36,7 +36,7 @@ while (<STDIN>) {
             push @names, $1;
         }
         my @name_regexps = map {
-            join("\\W*", map { quotemeta($_) } split(//, $_));
+            join(q{[\W\x{fe00}-\x{fe0f}\x{e0100}-\x{e01ef}]*}, map { quotemeta($_) } split(//, $_));
         } @names;
         my $name_regexp = "";
         if (scalar(@names) == 2 and length($names[0]) == length($names[1])) {
@@ -44,7 +44,7 @@ while (<STDIN>) {
                 my $ch1 = quotemeta(substr($names[0], $i, 1));
                 my $ch2 = quotemeta(substr($names[1], $i, 1));
                 $name_regexp .= ($ch1 eq $ch2) ? $ch1 : "(?:$ch1|$ch2)";
-                $name_regexp .= "\\W*" if $i != length($names[0]) - 1;
+                $name_regexp .= q{[\W\x{fe00}-\x{fe0f}\x{e0100}-\x{e01ef}]*} if $i != length($names[0]) - 1;
             }
         }
         else {
@@ -112,6 +112,7 @@ while (<STDIN>) {
         while ($page =~ m{($name_regexp).*?[^\p{sc=Hiragana}\p{sc=Katakana}]($defaultsort_regexp)[^\p{sc=Hiragana}\p{sc=Katakana}ー]}g) {
             my $matched_name = $1;
             my $matched_kana = $2;
+            $matched_name =~ tr/\x{fe00}-\x{fe0f}\x{e0100}-\x{e01ef}//d;
             my @split_name = split/\W+/, $matched_name;
             my @split_kana = split/\W+/, $matched_kana;
             if (scalar(@split_name) == 2 and scalar(@split_kana) == 2) {
