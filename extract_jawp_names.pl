@@ -115,8 +115,8 @@ while (<STDIN>) {
             my $matched_kana = $2;
             $matched_name =~ tr/\x{fe00}-\x{fe0f}\x{e0100}-\x{e01ef}//d;
             my @split_name = split/\W+/, $matched_name;
-            my @split_kana = map { tr/ァ-ン/ぁ-ん/; $_; } split(/\W+/, $matched_kana);
-            my @split_name_hiragana = map { tr/ァ-ン/ぁ-ん/; $_; } @split_name;
+            my @split_kana = map { my $t = $_; $t =~ tr/ァ-ン/ぁ-ん/; $t; } split(/\W+/, $matched_kana);
+            my @split_name_hiragana = map { my $t = $_; $t =~ tr/ァ-ン/ぁ-ん/; $t; } @split_name;
             if (scalar(@split_name) == 2 and scalar(@split_kana) == 2) {
                 my $ok_flag = 1;
                 if ($matched_name =~ m{^((?![炭郷団関])\p{sc=Han}|司馬|欧陽|諸葛|司徒)\W*(\p{sc=Han}{1,2})$}) {
