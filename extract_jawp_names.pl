@@ -13,6 +13,7 @@ while (<STDIN>) {
     $page .= $_;
     if (m{^\s*</page>}) {
         next if $page !~ m{\[\[Category:.+(人物|年生|年没)\b}i;
+        next if $page =~ m{\[\[Category:.*コンビ\b}i;
 
         $page =~ m{<title>(.+?)</title>};
         my $name = $1;
@@ -114,8 +115,35 @@ while (<STDIN>) {
             my $matched_kana = $2;
             $matched_name =~ tr/\x{fe00}-\x{fe0f}\x{e0100}-\x{e01ef}//d;
             my @split_name = split/\W+/, $matched_name;
-            my @split_kana = split/\W+/, $matched_kana;
+            my @split_kana = map { tr/ァ-ン/ぁ-ん/; } split(/\W+/, $matched_kana);
+            my @split_name_hiragana = map { tr/ァ-ン/ぁ-ん/; } @split_name;
             if (scalar(@split_name) == 2 and scalar(@split_kana) == 2) {
+                my $ok_flag = 1;
+                if ($matched_name =~ m{^((?![炭郷団関])\p{sc=Han}|司馬|欧陽|諸葛|司徒)\W*(\p{sc=Han}{1,2})$}) {
+                    my $surname_len = length($1);
+                    my $name_len = length($2);
+                    my $regex_yomi = q{\p{sc=Hiragana}(?:[ゃゅょ][うくつんっ]?|[いうきくちつんっ]?)};
+                    my $regex =  qr{^(?:$regex_yomi){$surname_len}\W+(?:$regex_yomi){$name_len}$};
+                    if ($matched_kana =~ m{$regex}) {
+                        $ok_flag = 0;
+                    }
+                }
+                for my $i(0..1) {
+                    if ($split_name_hiragana[$i] =~ m{(\p{sc=Hiragana}+)}) {
+                        my $t = $1;
+                        $ok_flag = 0 if $split_kana[$i] !~ m{$t};
+                    }
+                }
+                if ($matched_name =~ m{^[\p{sc=Katakana}\W]+$} or
+                    $matched_name =~ m{\d} or 
+                    $matched_name =~ m{.一覧}) {
+                    $ok_flag = 0;
+                }
+                if ($ok_flag == 0) {
+                    next;
+                }
+                    
+
                 print join(" ", @split_name)."\t".join(" ", @split_kana)."\n";
                 last;
             }
