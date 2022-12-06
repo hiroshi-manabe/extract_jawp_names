@@ -20,22 +20,20 @@ my %name_kanji_dict = ();
 my %opts;
 GetOptions(\%opts,
            "wikipedia-data=s",
-           "old-name-file=s",
-           "new-name-file=s",
+           "base-name-file=s",
            "blacklist=s"
     );
 
 $| = 1;
 
-if (not exists $opts{"wikipedia-data"} or not exists $opts{"old-name-file"} or not exists $opts{"new-name-file"}) {
+if (not exists $opts{"wikipedia-data"} or not exists $opts{"base-name-file"}) {
     my $script_name = basename($FindBin::Script);
-    die "$script_name --wikipedia-data <wikipedia-data> --old-name-file <old-name-file> --new-name-file <new-name-file> [--blacklist <blacklist>]\n";
+    die "$script_name --wikipedia-data <wikipedia-data> --base-name-file <old-name-file> [--blacklist <blacklist>]\n";
 }
 
 open IN, "<", $opts{"old-name-file"} or die "$opts{'$old-name-file'}: $!";
-open OUT, ">", $opts{"new-name-file"} or die "$opts{'$new-name-file'}: $!";
 while (<IN>) {
-    print OUT;
+    print;
     chomp;
     $exists_dict{$_} = ();
     my @F = split/\t/;
@@ -50,14 +48,16 @@ while (<IN>) {
 }
 close IN;
 
-my $blacklist = $opts{"blacklist"};
+if (exists $opts{"blacklist"}) {
+    my $blacklist = $opts{"blacklist"};
 
-open IN, "<", $blacklist or die "$blacklist: $!";
-while (<IN>) {
-    chomp;
-    $exists_dict{$_} = ();
+    open IN, "<", $blacklist or die "$blacklist: $!";
+    while (<IN>) {
+        chomp;
+        $exists_dict{$_} = ();
+    }
+    close IN;
 }
-close IN;
 
 open IN, "<", $opts{"wikipedia-data"} or die "opts{'wikipedia-data'}: $!";
 while (<IN>) {
@@ -86,7 +86,7 @@ while (<IN>) {
         my $name_kanji_kana = $name_kanji;
         $name_kanji_kana =~ tr/ァ-ン/ぁ-ん/;
         if (((exists $surname_dict{$surname_kanji}->{$surname_kana} or exists $name_dict{$name_kanji}->{$name_kana} or $name_kanji_kana eq $name_kana) or (exists $surname_kanji_dict{$surname_kanji} and exists $name_kanji_dict{$name_kanji}) or (exists $surname_kana_dict{$surname_kana} and exists $name_kana_dict{$name_kana})) and length($surname_kana) >= length($surname_kanji) and length($name_kana) >= length($name_kanji)) {
-            print OUT "$fullname\n";
+            print "$fullname\n";
             $surname_dict{$surname_kanji}->{$surname_kana} = ();
             $surname_kana_dict{$surname_kana} = ();
             $surname_kanji_dict{$surname_kanji} = ();
@@ -101,4 +101,3 @@ while (<IN>) {
     }
 }
 close IN;
-close OUT;
