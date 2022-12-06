@@ -28,10 +28,10 @@ $| = 1;
 
 if (not exists $opts{"wikipedia-data"} or not exists $opts{"base-name-file"}) {
     my $script_name = basename($FindBin::Script);
-    die "$script_name --wikipedia-data <wikipedia-data> --base-name-file <old-name-file> [--blacklist <blacklist>]\n";
+    die "$script_name --wikipedia-data <wikipedia-data> --base-name-file <base-name-file> [--blacklist <blacklist>]\n";
 }
 
-open IN, "<", $opts{"old-name-file"} or die "$opts{'$old-name-file'}: $!";
+open IN, "<", $opts{"base-name-file"} or die "$opts{'$base-name-file'}: $!";
 while (<IN>) {
     print;
     chomp;
