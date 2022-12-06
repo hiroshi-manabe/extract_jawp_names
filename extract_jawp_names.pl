@@ -121,16 +121,20 @@ while (<STDIN>) {
             my @split_name = split/\W+/, $matched_name;
             my @split_kana = map { my $t = $_; $t =~ tr/ァ-ン/ぁ-ん/; $t; } split(/\W+/, $matched_kana);
             my @split_name_hiragana = map { my $t = $_; $t =~ tr/ァ-ン/ぁ-ん/; $t; } @split_name;
+
             if (scalar(@split_name) == 2 and scalar(@split_kana) == 2) {
                 my $ok_flag = 1;
-                if ($matched_name =~ m{^((?![炭郷団関])\p{sc=Han}|司馬|欧陽|諸葛|司徒)\W*(\p{sc=Han}{1,2})$}) {
+                if ("$split_name[0] $split_name[1]" =~ m{^((?![炭郷団関])\p{sc=Han}|司馬|欧陽|諸葛|司徒)\W*(\p{sc=Han}{1,2})$}) {
                     my $surname_len = length($1);
                     my $name_len = length($2);
                     my $regex_yomi = q{\p{sc=Hiragana}(?:[ゃゅょ][うくつんっ]?|[いうきくちつんっ]?)};
                     my $regex =  qr{^(?:$regex_yomi){$surname_len}\W+(?:$regex_yomi){$name_len}$};
-                    if ($matched_kana =~ m{$regex}) {
+                    if ("$split_kana[0] $split_kana[1]" =~ m{$regex}) {
                         $ok_flag = 0;
                     }
+                }
+                if (length($split_name[0]) == 1 and $matched_kana !~ m{\p{sc=Hiragana}}) {
+                    $ok_flag = 0;
                 }
                 for my $i(0..1) {
                     if ($split_name_hiragana[$i] =~ m{(\p{sc=Hiragana}+)}) {
