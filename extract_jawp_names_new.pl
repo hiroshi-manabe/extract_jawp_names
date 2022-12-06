@@ -66,6 +66,7 @@ while (<IN>) {
         my ($surname_kanji, $name_kanji, $surname_kana, $name_kana) = ($1, $2, $3, $4);
         next if $surname_kanji =~ m{^\P{sc=Han}$} or $name_kanji =~ m{^\P{sc=Han}$};
         next if ($surname_kanji =~ m{^\p{sc=Hiragana}+$} and $surname_kanji ne $surname_kana) or ($name_kanji =~ m{^\p{sc=Hiragana}+$} and $name_kanji ne $name_kana);
+        next if $surname_kanji =~ m{王后|王妃};
         $surname_kanji =~ s{^(?:本名|別名|戸籍名)?((?:である|は|の|が|で|に|と|では)(?!\p{sc=Hiragana}))?}{};
         next if length($surname_kanji) > 4;
         $name_kanji =~ s{の(?:祖?父|祖?母|兄|姉|弟|妹)$}{};

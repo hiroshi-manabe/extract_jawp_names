@@ -136,7 +136,8 @@ while (<STDIN>) {
                 }
                 if ($matched_name =~ m{^[\p{sc=Katakana}\W]+$} or
                     $matched_name =~ m{\d} or 
-                    $matched_name =~ m{.一覧}) {
+                    $matched_name =~ m{.一覧} or 
+                    $matched_name =~ m{王后|王妃}) {
                     $ok_flag = 0;
                 }
                 if ($ok_flag == 0) {
