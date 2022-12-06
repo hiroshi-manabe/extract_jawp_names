@@ -138,7 +138,7 @@ while (<STDIN>) {
                         $ok_flag = 0 if $split_kana[$i] !~ m{$t};
                     }
                 }
-                if ($matched_name =~ m{^[\p{sc=Katakana}\W]+$} or
+                if ($matched_name !~ m{[\p{sc=Han}\p{sc=Hiragana}]} or
                     $matched_name =~ m{\d} or 
                     $matched_name =~ m{.一覧} or 
                     $matched_name =~ m{王后|王妃}) {
