@@ -113,7 +113,11 @@ while (<STDIN>) {
         while ($page =~ m{($name_regexp).*?[^\p{sc=Hiragana}\p{sc=Katakana}]($defaultsort_regexp)[^\p{sc=Hiragana}\p{sc=Katakana}ー]}g) {
             my $matched_name = $1;
             my $matched_kana = $2;
+            if ($matched_name =~ s{親王$}{}) {
+                next if $matched_kana !~ s{しんのう$}{};
+            }
             $matched_name =~ tr/\x{fe00}-\x{fe0f}\x{e0100}-\x{e01ef}//d;
+
             my @split_name = split/\W+/, $matched_name;
             my @split_kana = map { my $t = $_; $t =~ tr/ァ-ン/ぁ-ん/; $t; } split(/\W+/, $matched_kana);
             my @split_name_hiragana = map { my $t = $_; $t =~ tr/ァ-ン/ぁ-ん/; $t; } @split_name;
@@ -143,7 +147,6 @@ while (<STDIN>) {
                 if ($ok_flag == 0) {
                     next;
                 }
-                    
 
                 print join(" ", @split_name)."\t".join(" ", @split_kana)."\n";
                 last;
